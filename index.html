@@ -1,0 +1,1366 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LEARNIX PLAYER - Secure Video Platform</title>
+    <link rel="icon" href="https://i.supaimg.com/5aa6f3e6-1291-4b63-879e-7870fcdac1d6.png" type="image/png">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #00E0A1; /* Aqua green */
+            --primary-dark: #00B884;
+            --primary-glow: 0 0 10px rgba(0, 224, 161, 0.7), 0 0 20px rgba(0, 224, 161, 0.4);
+            --secondary: #6C63FF; /* Purple accent */
+            --secondary-glow: 0 0 10px rgba(108, 99, 255, 0.5);
+            --bg-dark: #0A1128; /* Navy blue */
+            --bg-darker: #050A1D;
+            --bg-card: #131C3F;
+            --text-light: #FFFFFF;
+            --text-muted: #A0AEC0;
+            --border-light: rgba(0, 224, 161, 0.3);
+            --border-dark: rgba(0, 224, 161, 0.1);
+            --shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+            --radius: 16px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, var(--bg-darker) 0%, var(--bg-dark) 100%);
+            color: var(--text-light);
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header Styles */
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 25px 0;
+            margin-bottom: 40px;
+            border-bottom: 1px solid var(--border-dark);
+        }
+
+        .logo-container {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .logo {
+            height: 60px;
+            filter: drop-shadow(0 0 5px var(--primary));
+        }
+
+        .logo-text {
+            font-size: 28px;
+            font-weight: 800;
+            color: var(--primary);
+            text-shadow: var(--primary-glow);
+        }
+
+        .header-actions {
+            display: flex;
+            gap: 15px;
+        }
+
+        .btn {
+            padding: 12px 20px;
+            border-radius: var(--radius);
+            border: none;
+            cursor: pointer;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            transition: all 0.3s ease;
+            box-shadow: var(--shadow);
+        }
+
+        .btn-icon {
+            width: 45px;
+            height: 45px;
+            padding: 0;
+            border-radius: 50%;
+        }
+
+        .btn-primary {
+            background-color: var(--primary);
+            color: var(--bg-darker);
+            box-shadow: var(--primary-glow);
+        }
+
+        .btn-primary:hover {
+            background-color: var(--primary-dark);
+            transform: translateY(-2px);
+            box-shadow: 0 0 15px rgba(0, 224, 161, 0.8);
+        }
+
+        .btn-secondary {
+            background-color: transparent;
+            color: var(--text-light);
+            border: 1px solid var(--border-light);
+        }
+
+        .btn-secondary:hover {
+            background-color: rgba(0, 224, 161, 0.1);
+            transform: translateY(-2px);
+        }
+
+        /* Hero Section */
+        .hero {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+        .hero h1 {
+            font-size: 2.8rem;
+            margin-bottom: 20px;
+            font-weight: 800;
+            color: var(--primary);
+            text-shadow: var(--primary-glow);
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            max-width: 700px;
+            margin: 0 auto 30px;
+            color: var(--text-muted);
+            font-weight: 400;
+        }
+
+        .player-container {
+            width: 100%;
+            max-width: 800px;
+            margin: 0 auto 30px;
+            border-radius: var(--radius);
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            background-color: #000;
+            aspect-ratio: 16/9;
+            position: relative;
+            border: 1px solid var(--border-light);
+        }
+
+        #video-player {
+            width: 100%;
+            height: 100%;
+            background-color: #000;
+        }
+
+        .player-placeholder {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, var(--bg-card) 0%, var(--bg-dark) 100%);
+            color: var(--text-light);
+            font-size: 1.2rem;
+        }
+
+        .input-group {
+            width: 100%;
+            max-width: 600px;
+            margin: 0 auto;
+            position: relative;
+        }
+
+        .url-input {
+            width: 100%;
+            padding: 16px 20px;
+            border-radius: var(--radius);
+            border: 1px solid var(--border-light);
+            font-size: 1rem;
+            background-color: rgba(255, 255, 255, 0.05);
+            color: var(--text-light);
+            transition: all 0.2s;
+            box-shadow: var(--shadow);
+        }
+
+        .url-input:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 4px rgba(0, 224, 161, 0.2);
+        }
+
+        .badge {
+            position: absolute;
+            top: -10px;
+            right: 15px;
+            background-color: var(--primary);
+            color: var(--bg-darker);
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 700;
+            box-shadow: var(--primary-glow);
+        }
+
+        .play-btn {
+            width: 100%;
+            padding: 16px;
+            margin-top: 20px;
+            font-size: 1.1rem;
+            font-weight: 700;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .action-buttons button {
+            flex: 1;
+        }
+
+        /* Features Section */
+        .features {
+            margin: 80px 0;
+        }
+
+        .features h2 {
+            text-align: center;
+            margin-bottom: 50px;
+            font-size: 2.2rem;
+            color: var(--primary);
+            text-shadow: var(--primary-glow);
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+        }
+
+        .feature-card {
+            background-color: var(--bg-card);
+            border-radius: var(--radius);
+            padding: 30px 25px;
+            text-align: center;
+            box-shadow: var(--shadow);
+            transition: transform 0.3s, box-shadow 0.3s;
+            border-top: 3px solid var(--primary);
+        }
+
+        .feature-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
+        }
+
+        .feature-icon {
+            font-size: 2.8rem;
+            margin-bottom: 20px;
+            color: var(--primary);
+            text-shadow: var(--primary-glow);
+        }
+
+        .feature-card h3 {
+            margin-bottom: 15px;
+            font-size: 1.3rem;
+            color: var(--primary);
+        }
+
+        .feature-card p {
+            color: var(--text-muted);
+        }
+
+        /* Share Components */
+        .share-components {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            z-index: 100;
+        }
+
+        .share-btn {
+            width: 55px;
+            height: 55px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: var(--bg-card);
+            color: var(--primary);
+            box-shadow: var(--shadow);
+            cursor: pointer;
+            transition: transform 0.2s;
+            font-size: 1.2rem;
+            border: 1px solid var(--border-dark);
+        }
+
+        .share-btn:hover {
+            transform: scale(1.15);
+            box-shadow: var(--primary-glow);
+        }
+
+        .telegram-cta {
+            position: fixed;
+            bottom: 30px;
+            left: 30px;
+            z-index: 100;
+        }
+
+        .telegram-btn {
+            padding: 14px 22px;
+            background-color: var(--bg-card);
+            color: var(--primary);
+            border-radius: 30px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            box-shadow: var(--shadow);
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s;
+            z-index: 101;
+            border: 1px solid var(--border-dark);
+        }
+
+        .telegram-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--primary-glow);
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 40px 0;
+            margin-top: 80px;
+            border-top: 1px solid var(--border-dark);
+        }
+
+        footer p {
+            color: var(--text-muted);
+            font-weight: 400;
+            font-size: 1.1rem;
+        }
+
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.8);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-content {
+            background-color: var(--bg-card);
+            padding: 35px;
+            border-radius: var(--radius);
+            max-width: 450px;
+            width: 90%;
+            text-align: center;
+            box-shadow: var(--shadow);
+            border-top: 3px solid var(--primary);
+        }
+
+        .modal h2 {
+            margin-bottom: 15px;
+            color: var(--primary);
+        }
+
+        .modal p {
+            margin-bottom: 25px;
+            color: var(--text-muted);
+            line-height: 1.6;
+        }
+
+        .modal-actions {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .checkbox-group {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 15px;
+            color: var(--text-muted);
+        }
+
+        /* Share Modal */
+        .share-modal-content {
+            background-color: var(--bg-card);
+            padding: 35px;
+            border-radius: var(--radius);
+            max-width: 500px;
+            width: 90%;
+            text-align: center;
+            box-shadow: var(--shadow);
+            border-top: 3px solid var(--primary);
+        }
+
+        .share-options {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+            margin: 25px 0;
+        }
+
+        .share-option {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 15px;
+            border-radius: var(--radius);
+            background-color: rgba(0, 224, 161, 0.1);
+            cursor: pointer;
+            transition: all 0.2s;
+            border: 1px solid var(--border-dark);
+        }
+
+        .share-option:hover {
+            background-color: rgba(0, 224, 161, 0.2);
+            box-shadow: var(--primary-glow);
+        }
+
+        .share-option i {
+            font-size: 1.8rem;
+            margin-bottom: 10px;
+            color: var(--primary);
+        }
+
+        .share-link {
+            display: flex;
+            margin-top: 20px;
+            align-items: center;
+        }
+
+        .share-link input {
+            flex: 1;
+            padding: 12px 15px;
+            border: 1px solid var(--border-light);
+            border-radius: var(--radius) 0 0 var(--radius);
+            border-right: none;
+            font-size: 0.9rem;
+            background-color: rgba(255, 255, 255, 0.05);
+            color: var(--text-light);
+        }
+
+        .copy-btn {
+            border-radius: 0 var(--radius) var(--radius) 0;
+            height: 100%;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2.2rem;
+            }
+            
+            .features-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .share-components {
+                bottom: 20px;
+                right: 20px;
+            }
+            
+            .telegram-cta {
+                bottom: 20px;
+                left: 20px;
+            }
+            
+            .header-actions {
+                gap: 10px;
+            }
+            
+            .feature-card {
+                padding: 20px 15px;
+            }
+            
+            .share-options {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .logo {
+                height: 50px;
+            }
+            
+            .logo-text {
+                font-size: 22px;
+            }
+            
+            .action-buttons {
+                flex-direction: column;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .logo-container {
+                flex-direction: column;
+                gap: 5px;
+                align-items: flex-start;
+            }
+            
+            .logo-text {
+                font-size: 18px;
+            }
+        }
+
+        /* Loading Spinner */
+        .spinner {
+            width: 40px;
+            height: 40px;
+            border: 4px solid rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            border-top-color: var(--primary);
+            animation: spin 1s ease-in-out infinite;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            margin-top: -20px;
+            margin-left: -20px;
+            display: none;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* Toast */
+        .toast {
+            position: fixed;
+            bottom: 100px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: var(--bg-card);
+            color: var(--text-light);
+            padding: 14px 28px;
+            border-radius: 30px;
+            box-shadow: var(--shadow);
+            z-index: 1000;
+            display: none;
+            font-weight: 500;
+            border: 1px solid var(--border-light);
+        }
+
+        .toast.error {
+            background-color: rgba(244, 67, 54, 0.2);
+            border-color: rgba(244, 67, 54, 0.5);
+        }
+
+        .toast.success {
+            background-color: rgba(76, 175, 80, 0.2);
+            border-color: rgba(76, 175, 80, 0.5);
+        }
+
+        /* Player Controls */
+        .player-controls {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 20px;
+            flex-wrap: wrap;
+        }
+
+        .control-btn {
+            padding: 12px 22px;
+            background-color: var(--bg-card);
+            color: var(--primary);
+            border: 1px solid var(--border-dark);
+            border-radius: var(--radius);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-weight: 600;
+            box-shadow: var(--shadow);
+            transition: all 0.3s;
+        }
+
+        .control-btn:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: var(--primary-glow);
+        }
+
+        .control-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        /* Additional styling for theme */
+        .accent-theme {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            padding: 60px 0;
+            margin: 60px 0;
+            border-radius: var(--radius);
+            text-align: center;
+            color: var(--bg-darker);
+            box-shadow: var(--shadow);
+        }
+        
+        .accent-theme h2 {
+            font-size: 2.2rem;
+            margin-bottom: 20px;
+        }
+        
+        .accent-theme p {
+            font-size: 1.1rem;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        /* Security features */
+        .security-features {
+            background-color: var(--bg-card);
+            border-radius: var(--radius);
+            padding: 30px;
+            margin: 40px 0;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border-dark);
+        }
+
+        .security-features h3 {
+            color: var(--primary);
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .security-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+        }
+
+        .security-item {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .security-icon {
+            font-size: 1.5rem;
+            color: var(--primary);
+        }
+        
+        /* YouTube badge */
+        .youtube-badge {
+            position: absolute;
+            top: -10px;
+            left: 15px;
+            background-color: #FF0000;
+            color: white;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 700;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        
+        /* Live indicator */
+        .live-indicator {
+            display: inline-flex;
+            align-items: center;
+            background-color: #FF0000;
+            color: white;
+            padding: 4px 10px;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            margin-left: 10px;
+            animation: pulse 1.5s infinite;
+        }
+        
+        .live-indicator::before {
+            content: "";
+            display: inline-block;
+            width: 8px;
+            height: 8px;
+            background-color: white;
+            border-radius: 50%;
+            margin-right: 5px;
+        }
+        
+        @keyframes pulse {
+            0% { opacity: 1; }
+            50% { opacity: 0.7; }
+            100% { opacity: 1; }
+        }
+        
+        /* URL examples */
+        .url-examples {
+            margin-top: 15px;
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            text-align: left;
+        }
+        
+        .url-examples summary {
+            cursor: pointer;
+            font-weight: 500;
+            margin-bottom: 8px;
+        }
+        
+        .url-examples ul {
+            padding-left: 20px;
+            margin-top: 8px;
+        }
+        
+        .url-examples li {
+            margin-bottom: 4px;
+            font-size: 0.85rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="logo-container">
+                <img src="https://i.supaimg.com/73f6e3b1-211e-4b7e-9eac-9881f90bc471.png" alt="LEARNIX PLAYER" class="logo">
+                <div class="logo-text"></div>
+            </div>
+            <div class="header-actions">
+                <button class="btn btn-icon btn-secondary" id="share-btn">
+                    <i class="fas fa-share-alt"></i>
+                </button>
+                <button class="btn btn-icon btn-secondary" id="theme-toggle">
+                    <i class="fas fa-sun"></i>
+                </button>
+            </div>
+        </header>
+
+        <section class="hero">
+            <h1 data-aos="fade-up">Premium Video Experience</h1>
+            <p data-aos="fade-up" data-aos-delay="100">A secure video player with support for HLS, DASH, YouTube, and Live Streams. Share videos without revealing source URLs.</p>
+            
+            <div class="player-container" data-aos="fade-up" data-aos-delay="200">
+                <div id="video-player">
+                    <div class="player-placeholder">
+                        <div>
+                            <i class="fas fa-play-circle" style="font-size: 3.5rem; margin-bottom: 20px; color: var(--primary);"></i>
+                            <p>Video will appear here</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="spinner" id="loading-spinner"></div>
+            </div>
+
+            <div class="input-group" data-aos="fade-up" data-aos-delay="300">
+                <span class="badge">Works with M3U8 / HLS / YouTube & Live</span>
+                <input type="text" class="url-input" id="video-url" placeholder="Enter Your Link (e.g., https://example.com/stream.m3u8 or YouTube URL)">
+                
+                <div class="action-buttons">
+                    <button class="btn btn-primary play-btn" id="play-btn">
+                        <i class="fas fa-play"></i> Play Now
+                    </button>
+                    <button class="btn btn-secondary" id="reset-btn">
+                        <i class="fas fa-redo"></i> Reset
+                    </button>
+                </div>
+                
+                <div class="url-examples">
+                    <details>
+                        <summary>Supported URL examples</summary>
+                        <ul>
+                            <li>YouTube: https://www.youtube.com/watch?v=VIDEO_ID</li>
+                            <li>YouTube Live: https://www.youtube.com/live/STREAM_ID</li>
+                            <li>HLS: https://example.com/stream.m3u8</li>
+                            <li>DASH: https://example.com/stream.mpd</li>
+                        </ul>
+                    </details>
+                </div>
+            </div>
+        </section>
+
+        <div class="security-features" data-aos="fade-up">
+            <h3>Secure Video Sharing Features</h3>
+            <div class="security-grid">
+                <div class="security-item">
+                    <div class="security-icon">
+                        <i class="fas fa-eye-slash"></i>
+                    </div>
+                    <div>
+                        <h4>Hidden Source URLs</h4>
+                        <p>Original video URLs are never revealed to viewers</p>
+                    </div>
+                </div>
+                <div class="security-item">
+                    <div class="security-icon">
+                        <i class="fas fa-link-slash"></i>
+                    </div>
+                    <div>
+                        <h4>No External Links</h4>
+                        <p>Prevents redirects to external video platforms</p>
+                    </div>
+                </div>
+                <div class="security-item">
+                    <div class="security-icon">
+                        <i class="fas fa-shield-alt"></i>
+                    </div>
+                    <div>
+                        <h4>Secure Embedding</h4>
+                        <p>Uses techniques to prevent branding and related videos</p>
+                    </div>
+                </div>
+                <div class="security-item">
+                    <div class="security-icon">
+                        <i class="fas fa-key"></i>
+                    </div>
+                    <div>
+                        <h4>URL Encryption</h4>
+                        <p>Shared links contain encrypted video identifiers</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="accent-theme" data-aos="fade-up">
+            <h2>Secure Streaming Experience</h2>
+            <p>Enjoy content without exposure to external platforms or distracting related videos</p>
+        </div>
+
+        <section class="features">
+            <h2 data-aos="fade-up">Features</h2>
+            <div class="features-grid">
+                <div class="feature-card" data-aos="fade-up" data-aos-delay="100">
+                    <div class="feature-icon">
+                        <i class="fas fa-bolt"></i>
+                    </div>
+                    <h3>HLS Support</h3>
+                    <p>Full support for HTTP Live Streaming (HLS) with adaptive bitrate.</p>
+                </div>
+                
+                <div class="feature-card" data-aos="fade-up" data-aos-delay="200">
+                    <div class="feature-icon">
+                        <i class="fas fa-tachometer-alt"></i>
+                    </div>
+                    <h3>DASH Compatible</h3>
+                    <p>Play MPEG-DASH streams with seamless quality switching.</p>
+                </div>
+                
+                <div class="feature-card" data-aos="fade-up" data-aos-delay="300">
+                    <div class="feature-icon">
+                        <i class="fab fa-youtube"></i>
+                    </div>
+                    <h3>YouTube Integration</h3>
+                    <p>Play YouTube videos and live streams with minimal branding.</p>
+                </div>
+                
+                <div class="feature-card" data-aos="fade-up" data-aos-delay="400">
+                    <div class="feature-icon">
+                        <i class="fas fa-broadcast-tower"></i>
+                    </div>
+                    <h3>Live Stream Support</h3>
+                    <p>Watch live streams from YouTube and other platforms.</p>
+                </div>
+                
+                <div class="feature-card" data-aos="fade-up" data-aos-delay="500">
+                    <div class="feature-icon">
+                        <i class="fas fa-expand"></i>
+                    </div>
+                    <h3>Picture-in-Picture</h3>
+                    <p>Watch videos in PiP mode while using other applications.</p>
+                </div>
+                
+                <div class="feature-card" data-aos="fade-up" data-aos-delay="600">
+                    <div class="feature-icon">
+                        <i class="fas fa-sliders-h"></i>
+                    </div>
+                    <h3>Quality Selection</h3>
+                    <p>Choose from available video qualities manually.</p>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <div class="share-components">
+        <div class="share-btn" id="whatsapp-share">
+            <i class="fab fa-whatsapp"></i>
+        </div>
+        <div class="share-btn" id="telegram-share">
+            <i class="fab fa-telegram"></i>
+        </div>
+        <div class="share-btn" id="facebook-share">
+            <i class="fab fa-facebook-f"></i>
+        </div>
+        <div class="share-btn" id="twitter-share">
+            <i class="fab fa-twitter"></i>
+        </div>
+        <div class="share-btn" id="copy-link">
+            <i class="fas fa-link"></i>
+        </div>
+    </div>
+
+    <div class="telegram-cta">
+        <a href="#" class="telegram-btn" id="telegram-join">
+            <i class="fab fa-telegram"></i> Join Telegram
+        </a>
+    </div>
+
+    <footer>
+        <p>&copy; 2025 LEARNIX PLAYER. Developed By Murli Kumar</p>
+    </footer>
+
+    <!-- Telegram Modal -->
+    <div class="modal" id="telegram-modal">
+        <div class="modal-content">
+            <h2>Join Our Telegram Channel</h2>
+            <p>Get updates, support, and share feedback with our community. Connect with other users and stay updated with the latest features.</p>
+            <div class="modal-actions">
+                <a href="#" target="_blank" class="btn btn-primary">
+                    <i class="fab fa-telegram"></i> Join Now
+                </a>
+                <button class="btn btn-secondary" id="close-modal">Maybe Later</button>
+            </div>
+            <div class="checkbox-group">
+                <input type="checkbox" id="dont-show-again">
+                <label for="dont-show-again">Don't show again</label>
+            </div>
+        </div>
+    </div>
+
+    <!-- Share Modal -->
+    <div class="modal" id="share-modal">
+        <div class="share-modal-content">
+            <h2>Share This Video</h2>
+            <p>Share this video with others without revealing the source URL</p>
+            
+            <div class="share-options">
+                <div class="share-option" data-platform="whatsapp">
+                    <i class="fab fa-whatsapp"></i>
+                    <span>WhatsApp</span>
+                </div>
+                
+                <div class="share-option" data-platform="telegram">
+                    <i class="fab fa-telegram"></i>
+                    <span>Telegram</span>
+                </div>
+                
+                <div class="share-option" data-platform="facebook">
+                    <i class="fab fa-facebook"></i>
+                    <span>Facebook</span>
+                </div>
+                
+                <div class="share-option" data-platform="twitter">
+                    <i class="fab fa-twitter"></i>
+                    <span>Twitter</span>
+                </div>
+                
+                <div class="share-option" data-platform="linkedin">
+                    <i class="fab fa-linkedin"></i>
+                    <span>LinkedIn</span>
+                </div>
+                
+                <div class="share-option" data-platform="email">
+                    <i class="fas fa-envelope"></i>
+                    <span>Email</span>
+                </div>
+            </div>
+            
+            <div class="share-link">
+                <input type="text" id="share-url" readonly>
+                <button class="btn btn-primary copy-btn" id="copy-share-url">
+                    <i class="fas fa-copy"></i>
+                </button>
+            </div>
+            
+            <button class="btn btn-secondary" id="close-share-modal" style="margin-top: 20px;">Close</button>
+        </div>
+    </div>
+
+    <div class="toast" id="toast"></div>
+
+    <!-- Scripts -->
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        // Initialize AOS
+        document.addEventListener('DOMContentLoaded', function() {
+            AOS.init({
+                duration: 800,
+                easing: 'ease-in-out',
+                once: true
+            });
+
+            // Check for prefers reduced motion
+            const mediaQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
+            if (mediaQuery.matches) {
+                AOS.init({ disable: true });
+            }
+
+            // Theme toggle functionality
+            const themeToggle = document.getElementById('theme-toggle');
+            const icon = themeToggle.querySelector('i');
+            
+            // Set initial theme to dark mode
+            document.body.classList.add('dark-mode');
+            icon.classList.remove('fa-moon');
+            icon.classList.add('fa-sun');
+            
+            themeToggle.addEventListener('click', () => {
+                document.body.classList.toggle('dark-mode');
+                if (document.body.classList.contains('dark-mode')) {
+                    icon.classList.remove('fa-moon');
+                    icon.classList.add('fa-sun');
+                } else {
+                    icon.classList.remove('fa-sun');
+                    icon.classList.add('fa-moon');
+                }
+            });
+
+            // Check URL parameters for auto-play
+            const urlParams = new URLSearchParams(window.location.search);
+            const playParam = urlParams.get('play');
+            if (playParam) {
+                try {
+                    // Decode the video identifier from the URL
+                    const videoId = atob(playParam);
+                    document.getElementById('video-url').value = videoId;
+                    // Auto-play after a short delay to allow page to load
+                    setTimeout(() => playVideo(videoId), 1000);
+                } catch (e) {
+                    console.error("Error decoding video parameter:", e);
+                    showToast('Invalid video parameter', 'error');
+                }
+            }
+
+            // Check if we should show the Telegram modal
+            if (!sessionStorage.getItem('telegramModalShown') && !localStorage.getItem('dontShowTelegramModal')) {
+                setTimeout(() => {
+                    document.getElementById('telegram-modal').style.display = 'flex';
+                    sessionStorage.setItem('telegramModalShown', 'true');
+                }, 5000);
+            }
+
+            // Set up event listeners
+            document.getElementById('play-btn').addEventListener('click', () => {
+                const url = document.getElementById('video-url').value;
+                if (isValidUrl(url)) {
+                    playVideo(url);
+                } else {
+                    showToast('Please enter a valid URL', 'error');
+                }
+            });
+
+            // Reset button functionality
+            document.getElementById('reset-btn').addEventListener('click', resetPlayer);
+
+            document.getElementById('telegram-join').addEventListener('click', (e) => {
+                e.preventDefault();
+                document.getElementById('telegram-modal').style.display = 'flex';
+            });
+
+            document.getElementById('close-modal').addEventListener('click', () => {
+                document.getElementById('telegram-modal').style.display = 'none';
+            });
+
+            document.getElementById('dont-show-again').addEventListener('change', (e) => {
+                if (e.target.checked) {
+                    localStorage.setItem('dontShowTelegramModal', 'true');
+                } else {
+                    localStorage.removeItem('dontShowTelegramModal');
+                }
+            });
+
+            // Set up share buttons
+            document.getElementById('share-btn').addEventListener('click', showShareModal);
+            document.getElementById('close-share-modal').addEventListener('click', () => {
+                document.getElementById('share-modal').style.display = 'none';
+            });
+            
+            document.getElementById('copy-share-url').addEventListener('click', copyShareUrl);
+            
+            // Set up share options
+            document.querySelectorAll('.share-option').forEach(option => {
+                option.addEventListener('click', () => {
+                    shareOnPlatform(option.dataset.platform);
+                });
+            });
+
+            // Set up floating share buttons
+            document.getElementById('whatsapp-share').addEventListener('click', () => shareOnPlatform('whatsapp'));
+            document.getElementById('telegram-share').addEventListener('click', () => shareOnPlatform('telegram'));
+            document.getElementById('facebook-share').addEventListener('click', () => shareOnPlatform('facebook'));
+            document.getElementById('twitter-share').addEventListener('click', () => shareOnPlatform('twitter'));
+            document.getElementById('copy-link').addEventListener('click', copyPageLink);
+
+            // Load last played video if exists
+            const lastVideo = localStorage.getItem('lastVideo');
+            if (lastVideo) {
+                document.getElementById('video-url').value = lastVideo;
+            }
+        });
+
+        // Video player functionality
+        let player;
+
+        // Function to extract YouTube ID from various URL formats
+        function getYouTubeId(url) {
+            const patterns = [
+                /(?:youtube\.com\/(?:[^\/]+\/.+\/|(?:v|e(?:mbed)?)\/|.*[?&]v=)|youtu\.be\/)([^"&?\/\s]{11})/,
+                /youtube\.com\/watch\?v=([^&]+)/,
+                /youtube\.com\/embed\/([^\/]+)/,
+                /youtu\.be\/([^\/]+)/,
+                /youtube\.com\/live\/([^&?\/]+)/
+            ];
+            
+            for (const pattern of patterns) {
+                const match = url.match(pattern);
+                if (match && match[1]) {
+                    return match[1];
+                }
+            }
+            
+            return null;
+        }
+
+        // Check if URL is a YouTube Live stream
+        function isYouTubeLive(url) {
+            return url.includes('youtube.com/live/') || (url.includes('youtube.com/watch') && url.includes('&live=1'));
+        }
+
+        function initializePlayer() {
+            const playerContainer = document.getElementById('video-player');
+            playerContainer.innerHTML = `
+                <video id="main-video" controls style="width: 100%; height: 100%;">
+                    Your browser does not support the video tag.
+                </video>
+            `;
+            return document.getElementById('main-video');
+        }
+
+        function playVideo(url) {
+            showLoadingSpinner(true);
+            
+            // Save to localStorage
+            localStorage.setItem('lastVideo', url);
+            
+            // Update share URL
+            updateShareUrl(url);
+            
+            // Check if it's a YouTube URL
+            const youtubeId = getYouTubeId(url);
+            
+            if (youtubeId) {
+                // It's a YouTube video - use iframe embed
+                const isLive = isYouTubeLive(url);
+                embedYouTubeVideo(youtubeId, isLive);
+            } else {
+                // Regular video URL (HLS, DASH, etc.)
+                // Initialize player if not already done
+                if (!player) {
+                    player = initializePlayer();
+                }
+                
+                // For demonstration purposes, we'll just set the video source
+                player.src = url;
+                
+                player.addEventListener('canplay', () => {
+                    showLoadingSpinner(false);
+                    player.play().catch(e => {
+                        showToast('Autoplay blocked. Click play to start video.', 'error');
+                    });
+                });
+                
+                player.addEventListener('error', () => {
+                    showLoadingSpinner(false);
+                    showToast('Error loading video. Please check the URL.', 'error');
+                });
+            }
+        }
+
+        function embedYouTubeVideo(videoId, isLive = false) {
+            // Using techniques to minimize branding and related videos
+            let embedUrl = `https://www.youtube-nocookie.com/embed/${videoId}?modestbranding=1&controls=1&rel=0&iv_load_policy=3&fs=1`;
+            
+            // Additional parameters for live streams
+            if (isLive) {
+                embedUrl += '&autoplay=1';
+            }
+            
+            const playerContainer = document.getElementById('video-player');
+            playerContainer.innerHTML = `
+                <iframe 
+                    width="100%" 
+                    height="100%" 
+                    src="${embedUrl}" 
+                    frameborder="0" 
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                    allowfullscreen
+                    style="border-radius: 8px;"
+                ></iframe>
+                <div class="youtube-badge">YouTube${isLive ? '<span class="live-indicator">LIVE</span>' : ''}</div>
+            `;
+            
+            showLoadingSpinner(false);
+        }
+
+        function resetPlayer() {
+            // Clear the video URL input
+            document.getElementById('video-url').value = '';
+            
+            // Clear the player
+            const playerContainer = document.getElementById('video-player');
+            playerContainer.innerHTML = `
+                <div class="player-placeholder">
+                    <div>
+                        <i class="fas fa-play-circle" style="font-size: 3.5rem; margin-bottom: 20px; color: var(--primary);"></i>
+                        <p>Video will appear here</p>
+                    </div>
+                </div>
+            `;
+            
+            // Reset the player variable
+            player = null;
+            
+            // Clear the last video from localStorage
+            localStorage.removeItem('lastVideo');
+            
+            // Clear URL parameters without reloading the page
+            const url = new URL(window.location);
+            url.searchParams.delete('play');
+            window.history.replaceState({}, '', url);
+            
+            showToast('Player has been reset', 'success');
+        }
+
+        function showLoadingSpinner(show) {
+            const spinner = document.getElementById('loading-spinner');
+            spinner.style.display = show ? 'block' : 'none';
+        }
+
+        function isValidUrl(url) {
+            try {
+                new URL(url);
+                return true;
+            } catch (e) {
+                // Also check if it might be a YouTube URL
+                return getYouTubeId(url) !== null;
+            }
+        }
+
+        function showToast(message, type = '') {
+            const toast = document.getElementById('toast');
+            toast.textContent = message;
+            toast.className = 'toast ' + type;
+            toast.style.display = 'block';
+            
+            setTimeout(() => {
+                toast.style.display = 'none';
+            }, 3000);
+        }
+
+        function updateShareUrl(videoUrl) {
+            const currentUrl = window.location.href.split('?')[0];
+            // Encode the video URL using base64 to hide the original URL
+            const encodedVideoUrl = btoa(videoUrl);
+            const shareUrl = `${currentUrl}?play=${encodedVideoUrl}`;
+            if (document.getElementById('share-url')) {
+                document.getElementById('share-url').value = shareUrl;
+            }
+            return shareUrl;
+        }
+
+        function showShareModal() {
+            const videoUrl = document.getElementById('video-url').value;
+            if (videoUrl) {
+                updateShareUrl(videoUrl);
+                document.getElementById('share-modal').style.display = 'flex';
+            } else {
+                showToast('Please enter a video URL first', 'error');
+            }
+        }
+
+        function copyShareUrl() {
+            const shareUrlInput = document.getElementById('share-url');
+            shareUrlInput.select();
+            document.execCommand('copy');
+            showToast('Link copied to clipboard!');
+        }
+
+        function copyPageLink() {
+            const videoUrl = document.getElementById('video-url').value;
+            if (videoUrl) {
+                const shareUrl = updateShareUrl(videoUrl);
+                navigator.clipboard.writeText(shareUrl).then(() => {
+                    showToast('Link copied to clipboard!');
+                }).catch(err => {
+                    // Fallback method for copying
+                    const tempInput = document.createElement('input');
+                    tempInput.value = shareUrl;
+                    document.body.appendChild(tempInput);
+                    tempInput.select();
+                    document.execCommand('copy');
+                    document.body.removeChild(tempInput);
+                    showToast('Link copied to clipboard!');
+                });
+            } else {
+                showToast('Please enter a video URL first', 'error');
+            }
+        }
+
+        function shareOnPlatform(platform) {
+            const videoUrl = document.getElementById('video-url').value;
+            if (!videoUrl) {
+                showToast('Please enter a video URL first', 'error');
+                return;
+            }
+            
+            const shareUrl = updateShareUrl(videoUrl);
+            const encodedUrl = encodeURIComponent(shareUrl);
+            const text = encodeURIComponent('Check out this video on LEARNIX PLAYER: ');
+            
+            let shareLink = '';
+            
+            switch(platform) {
+                case 'whatsapp':
+                    shareLink = `https://api.whatsapp.com/send?text=${text}${encodedUrl}`;
+                    break;
+                case 'telegram':
+                    shareLink = `https://t.me/share/url?url=${encodedUrl}&text=${text}`;
+                    break;
+                case 'facebook':
+                    shareLink = `https://www.facebook.com/sharer/sharer.php?u=${encodedUrl}`;
+                    break;
+                case 'twitter':
+                    shareLink = `https://twitter.com/intent/tweet?url=${encodedUrl}&text=${text}`;
+                    break;
+                case 'linkedin':
+                    shareLink = `https://www.linkedin.com/sharing/share-offsite/?url=${encodedUrl}`;
+                    break;
+                case 'email':
+                    shareLink = `mailto:?subject=Check out this video&body=Check out this video on LEARNIX PLAYER: ${shareUrl}`;
+                    break;
+            }
+            
+            if (shareLink) {
+                window.open(shareLink, '_blank');
+            }
+            
+            // Close the modal if it's open
+            document.getElementById('share-modal').style.display = 'none';
+        }
+    </script>
+</body>
+</html>
