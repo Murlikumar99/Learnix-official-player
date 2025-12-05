@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>LEARNIX PLAYER - Secure Video Platform</title>
+    <meta property="og:image" content="" id="og-image">
     <link rel="icon" href="https://i.supaimg.com/5aa6f3e6-1291-4b63-879e-7870fcdac1d6.png" type="image/png">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -191,6 +192,55 @@
             background: linear-gradient(135deg, var(--bg-card) 0%, var(--bg-dark) 100%);
             color: var(--text-light);
             font-size: 1.2rem;
+            position: relative;
+            cursor: pointer;
+        }
+
+        .thumbnail-preview {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: none;
+        }
+
+        .thumbnail-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.5);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            transition: all 0.3s ease;
+        }
+
+        .thumbnail-overlay:hover {
+            background: rgba(0, 0, 0, 0.6);
+        }
+
+        .play-button-large {
+            font-size: 5rem;
+            margin-bottom: 15px;
+            color: var(--primary);
+            text-shadow: 0 0 20px rgba(0, 224, 161, 0.8);
+            transition: transform 0.3s ease;
+        }
+
+        .thumbnail-overlay:hover .play-button-large {
+            transform: scale(1.1);
+        }
+
+        .play-text {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: white;
+            background: rgba(0, 0, 0, 0.7);
+            padding: 8px 20px;
+            border-radius: 30px;
         }
 
         /* Resources Section */
@@ -786,16 +836,44 @@
             padding: 12px 20px;
         }
 
+        /* Thumbnail Preview Styles */
+        .thumbnail-preview-container {
+            display: none;
+            margin-top: 10px;
+            padding: 10px;
+            background: var(--bg-card);
+            border-radius: var(--radius);
+            border: 1px solid var(--border-dark);
+        }
+
+        .thumbnail-preview-container.active {
+            display: block;
+        }
+
+        .thumbnail-preview-img {
+            width: 100%;
+            max-height: 200px;
+            object-fit: cover;
+            border-radius: var(--radius);
+            display: block;
+        }
+
+        .thumbnail-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 10px;
+        }
+
         /* Responsive Design */
         @media (max-width: 1024px) {
             .container {
                 padding: 0 15px;
             }
-            
+
             .hero h1 {
                 font-size: 2.4rem;
             }
-            
+
             .features-grid {
                 grid-template-columns: repeat(2, 1fr);
             }
@@ -855,11 +933,11 @@
             .password-modal-content {
                 padding: 30px 20px;
             }
-            
+
             .modal-content {
                 padding: 25px;
             }
-            
+
             .share-components {
                 flex-direction: row;
                 bottom: 15px;
@@ -867,12 +945,12 @@
                 left: 15px;
                 justify-content: center;
             }
-            
+
             .share-btn {
                 width: 50px;
                 height: 50px;
             }
-            
+
             .telegram-cta {
                 bottom: 80px;
                 left: 15px;
@@ -880,10 +958,14 @@
                 justify-content: center;
                 display: flex;
             }
-            
+
             .telegram-btn {
                 width: 100%;
                 justify-content: center;
+            }
+
+            .play-button-large {
+                font-size: 4rem;
             }
         }
 
@@ -897,35 +979,47 @@
             .logo-text {
                 font-size: 18px;
             }
-            
+
             .hero h1 {
                 font-size: 1.8rem;
             }
-            
+
             .hero p {
                 font-size: 1rem;
             }
-            
+
             .feature-card {
                 padding: 15px;
             }
-            
+
             .share-options {
                 grid-template-columns: 1fr;
             }
-            
+
             .header-actions .btn-icon {
                 width: 40px;
                 height: 40px;
             }
-            
+
             .modal-content {
                 padding: 20px;
             }
-            
+
             .share-components {
                 flex-wrap: wrap;
                 gap: 10px;
+            }
+
+            .thumbnail-actions {
+                flex-direction: column;
+            }
+
+            .play-button-large {
+                font-size: 3rem;
+            }
+
+            .play-text {
+                font-size: 1rem;
             }
         }
 
@@ -1234,6 +1328,54 @@
         .secure-mode-indicator i {
             color: var(--primary);
         }
+
+        /* Thumbnail Input Container */
+        .thumbnail-input-container {
+            position: relative;
+            margin-bottom: 10px;
+        }
+
+        .thumbnail-lock-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(19, 28, 63, 0.8);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: var(--radius);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(2px);
+        }
+
+        .thumbnail-lock-overlay:hover {
+            background: rgba(0, 224, 161, 0.1);
+        }
+
+        .thumbnail-lock-overlay i {
+            font-size: 1.8rem;
+            color: var(--primary);
+            animation: pulse 2s infinite;
+        }
+
+        /* Thumbnail Preview Container */
+        .thumbnail-preview-wrapper {
+            margin-top: 10px;
+            display: none;
+        }
+
+        .thumbnail-preview-wrapper.active {
+            display: block;
+        }
+
+        .thumbnail-controls {
+            display: flex;
+            gap: 10px;
+            margin-top: 10px;
+        }
     </style>
 </head>
 <body>
@@ -1268,10 +1410,11 @@
 
             <div class="player-container" data-aos="fade-up" data-aos-delay="200">
                 <div id="video-player">
-                    <div class="player-placeholder">
-                        <div>
-                            <i class="fas fa-play-circle" style="font-size: 3.5rem; margin-bottom: 20px; color: var(--primary);"></i>
-                            <p>Video will appear here</p>
+                    <div class="player-placeholder" id="player-placeholder">
+                        <img src="" alt="Thumbnail Preview" class="thumbnail-preview" id="thumbnail-preview">
+                        <div class="thumbnail-overlay">
+                            <i class="fas fa-play-circle play-button-large"></i>
+                            <div class="play-text">Click to Play Video</div>
                         </div>
                     </div>
                 </div>
@@ -1284,6 +1427,30 @@
                     <input type="text" class="url-input blurred" id="video-url" placeholder="Enter Your Link (e.g., https://example.com/stream.m3u8 or YouTube URL)" readonly>
                     <div class="video-lock-overlay" id="video-lock-overlay">
                         <i class="fas fa-lock"></i>
+                    </div>
+                </div>
+
+                <!-- Thumbnail Input (Hidden from Viewers) -->
+                <div class="thumbnail-input-container">
+                    <input type="text" class="url-input blurred" id="thumbnail-url" placeholder="Enter Thumbnail URL (Image link for preview)" readonly>
+                    <div class="thumbnail-lock-overlay" id="thumbnail-lock-overlay">
+                        <i class="fas fa-lock"></i>
+                    </div>
+                </div>
+
+                <!-- Thumbnail Preview (Only shows when thumbnail is set) -->
+                <div class="thumbnail-preview-wrapper" id="thumbnail-preview-wrapper">
+                    <div class="thumbnail-preview-container">
+                        <h4 style="margin-bottom: 10px; color: var(--primary);">Thumbnail Preview</h4>
+                        <img src="" alt="Thumbnail Preview" class="thumbnail-preview-img" id="thumbnail-preview-img">
+                        <div class="thumbnail-controls">
+                            <button class="btn btn-secondary" id="update-thumbnail-btn">
+                                <i class="fas fa-sync-alt"></i> Update Preview
+                            </button>
+                            <button class="btn btn-secondary" id="remove-thumbnail-btn">
+                                <i class="fas fa-trash"></i> Remove
+                            </button>
+                        </div>
                     </div>
                 </div>
 
@@ -1304,6 +1471,7 @@
                             <li>YouTube Live: https://www.youtube.com/live/STREAM_ID</li>
                             <li>HLS: https://example.com/stream.m3u8</li>
                             <li>DASH: https://example.com/stream.mpd</li>
+                            <li>Thumbnail: https://example.com/thumbnail.jpg (for preview)</li>
                         </ul>
                     </details>
                 </div>
@@ -1401,6 +1569,9 @@
                 <button class="btn btn-secondary horizontal-btn" id="bookmark-btn">
                     <i class="fas fa-bookmark"></i> Bookmark
                 </button>
+                <button class="btn btn-secondary horizontal-btn" id="thumbnail-settings-btn" style="display: none;">
+                    <i class="fas fa-image"></i> Thumbnail Settings
+                </button>
             </div>
         </section>
 
@@ -1441,6 +1612,15 @@
                     <div>
                         <h4>Password Protection</h4>
                         <p>Edit URLs only with correct password for added security</p>
+                    </div>
+                </div>
+                <div class="security-item">
+                    <div class="security-icon">
+                        <i class="fas fa-image"></i>
+                    </div>
+                    <div>
+                        <h4>Custom Thumbnails</h4>
+                        <p>Set custom thumbnails for videos (Admin only)</p>
                     </div>
                 </div>
             </div>
@@ -1512,10 +1692,10 @@
 
                 <div class="feature-card" data-aos="fade-up" data-aos-delay="800">
                     <div class="feature-icon">
-                        <i class="fas fa-lock"></i>
+                        <i class="fas fa-image"></i>
                     </div>
-                    <h3>Password Protection</h3>
-                    <p>Secure editing of URLs with password authentication.</p>
+                    <h3>Custom Thumbnails</h3>
+                    <p>Set custom preview images for videos (Admin feature).</p>
                 </div>
             </div>
         </section>
@@ -1557,21 +1737,50 @@
             </div>
             <h2>Secure Edit Mode</h2>
             <p>Enter password to edit video and resource URLs.</p>
-            
+
             <div class="password-input-container">
                 <input type="password" class="password-input" id="password-input" placeholder="Enter password" autocomplete="off">
                 <button class="toggle-password" id="toggle-password" type="button">
                     <i class="fas fa-eye"></i>
                 </button>
             </div>
-            
-            <p class="password-hint">Default password: 123456789</p>
-            
+
+            <p class="password-hint">Default password: murlikumar65@</p>
+
             <div class="modal-actions">
                 <button class="btn btn-primary" id="submit-password">
                     <i class="fas fa-key"></i> Unlock Editing
                 </button>
                 <button class="btn btn-secondary" id="cancel-password">
+                    Cancel
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Thumbnail Settings Modal -->
+    <div class="modal" id="thumbnail-settings-modal">
+        <div class="modal-content">
+            <h2>Thumbnail Settings</h2>
+            <p>Manage custom thumbnail for the video. This is only visible in edit mode.</p>
+
+            <div class="resource-input-group" style="margin: 20px 0;">
+                <input type="text" class="resource-input" id="thumbnail-settings-url" placeholder="Enter thumbnail URL (e.g., https://example.com/thumbnail.jpg)">
+            </div>
+
+            <div id="thumbnail-settings-preview" style="margin: 20px 0; display: none;">
+                <h4 style="margin-bottom: 10px; color: var(--primary);">Preview:</h4>
+                <img src="" alt="Thumbnail Preview" class="thumbnail-preview-img" id="thumbnail-settings-img" style="max-height: 150px;">
+            </div>
+
+            <div class="modal-actions">
+                <button class="btn btn-primary" id="save-thumbnail-btn">
+                    <i class="fas fa-save"></i> Save Thumbnail
+                </button>
+                <button class="btn btn-secondary" id="test-thumbnail-btn">
+                    <i class="fas fa-eye"></i> Test Preview
+                </button>
+                <button class="btn btn-secondary" id="close-thumbnail-settings">
                     Cancel
                 </button>
             </div>
@@ -1650,21 +1859,22 @@
         <div class="modal-content">
             <h2>Export Session Links</h2>
             <p>Copy all your session links to share or save for later</p>
-            
+
             <div class="share-link">
                 <input type="text" id="export-url" readonly>
                 <button class="btn btn-primary copy-btn" id="copy-export-url">
                     <i class="fas fa-copy"></i>
                 </button>
             </div>
-            
+
             <div style="margin-top: 20px; text-align: left;">
                 <h4>Session Details:</h4>
                 <p><strong>Video:</strong> <span id="export-video-url">Not set</span></p>
                 <p><strong>Notes:</strong> <span id="export-notes-url">Not set</span></p>
                 <p><strong>DPP:</strong> <span id="export-dpp-url">Not set</span></p>
+                <p><strong>Thumbnail:</strong> <span id="export-thumbnail-url">Not set</span></p>
             </div>
-            
+
             <button class="btn btn-secondary" id="close-export-modal" style="margin-top: 20px;">Close</button>
         </div>
     </div>
@@ -1701,11 +1911,14 @@
 
             // Check if edit mode is active from localStorage
             const editModeActive = localStorage.getItem('editModeActive') === 'true';
-            
+
             if (editModeActive) {
                 // Edit mode is permanently active
                 unlockEditing();
             }
+
+            // Load thumbnail from localStorage if exists
+            loadThumbnail();
 
             // Theme toggle functionality
             const themeToggle = document.getElementById('theme-toggle');
@@ -1722,12 +1935,19 @@
             const playParam = urlParams.get('play');
             const notesParam = urlParams.get('notes');
             const dppParam = urlParams.get('dpp');
+            const thumbParam = urlParams.get('thumb');
 
+            // Set video URL from parameters (but don't auto-play)
             if (playParam) {
                 try {
                     const videoId = atob(playParam);
                     document.getElementById('video-url').value = videoId;
-                    setTimeout(() => playVideo(videoId), 1000);
+                    
+                    // Update share URL
+                    updateShareUrl();
+                    
+                    // Show toast message
+                    showToast('Video URL loaded. Click Play to start watching.', 'info');
                 } catch (e) {
                     console.error("Error decoding video parameter:", e);
                     showToast('Invalid video parameter', 'error');
@@ -1740,7 +1960,7 @@
                     document.getElementById('notes-url').value = notesUrl;
                     setTimeout(() => {
                         handleNotesAdded(notesUrl);
-                        showToast('Notes loaded from shared link', 'success');
+                        showToast('Notes loaded successfully', 'success');
                     }, 1200);
                 } catch (e) {
                     console.error("Error decoding notes parameter:", e);
@@ -1753,10 +1973,23 @@
                     document.getElementById('dpp-url').value = dppUrl;
                     setTimeout(() => {
                         handleDPPAdded(dppUrl);
-                        showToast('DPP loaded from shared link', 'success');
+                        showToast('DPP loaded successfully', 'success');
                     }, 1400);
                 } catch (e) {
                     console.error("Error decoding DPP parameter:", e);
+                }
+            }
+
+            if (thumbParam) {
+                try {
+                    const thumbUrl = atob(thumbParam);
+                    document.getElementById('thumbnail-url').value = thumbUrl;
+                    setTimeout(() => {
+                        updateThumbnailPreview(thumbUrl);
+                        showToast('Thumbnail loaded successfully', 'success');
+                    }, 1600);
+                } catch (e) {
+                    console.error("Error decoding thumbnail parameter:", e);
                 }
             }
 
@@ -1780,6 +2013,18 @@
                 }
             });
 
+            // Click on thumbnail overlay to play
+            document.getElementById('player-placeholder').addEventListener('click', () => {
+                const url = document.getElementById('video-url').value;
+                if (isValidUrl(url)) {
+                    playVideo(url);
+                } else if (url.trim()) {
+                    showToast('Please enter a valid URL', 'error');
+                } else {
+                    showToast('Please enter a video URL first', 'error');
+                }
+            });
+
             // Reset button functionality
             document.getElementById('reset-btn').addEventListener('click', resetAll);
 
@@ -1787,7 +2032,40 @@
             document.getElementById('video-lock-overlay').addEventListener('click', showPasswordModal);
             document.getElementById('notes-lock-overlay').addEventListener('click', showPasswordModal);
             document.getElementById('dpp-lock-overlay').addEventListener('click', showPasswordModal);
+            document.getElementById('thumbnail-lock-overlay').addEventListener('click', showPasswordModal);
             document.getElementById('edit-lock-btn').addEventListener('click', toggleEditLock);
+
+            // Thumbnail functionality
+            document.getElementById('thumbnail-url').addEventListener('input', function() {
+                const url = this.value.trim();
+                if (url && isValidImageUrl(url)) {
+                    updateThumbnailPreview(url);
+                }
+            });
+
+            document.getElementById('update-thumbnail-btn').addEventListener('click', function() {
+                const url = document.getElementById('thumbnail-url').value.trim();
+                if (url && isValidImageUrl(url)) {
+                    updateThumbnailPreview(url);
+                    showToast('Thumbnail preview updated', 'success');
+                } else {
+                    showToast('Please enter a valid image URL', 'error');
+                }
+            });
+
+            document.getElementById('remove-thumbnail-btn').addEventListener('click', function() {
+                removeThumbnail();
+            });
+
+            // Thumbnail settings button
+            document.getElementById('thumbnail-settings-btn').addEventListener('click', showThumbnailSettings);
+
+            // Thumbnail settings modal
+            document.getElementById('save-thumbnail-btn').addEventListener('click', saveThumbnail);
+            document.getElementById('test-thumbnail-btn').addEventListener('click', testThumbnailPreview);
+            document.getElementById('close-thumbnail-settings').addEventListener('click', () => {
+                document.getElementById('thumbnail-settings-modal').style.display = 'none';
+            });
 
             // Password modal functionality
             document.getElementById('submit-password').addEventListener('click', validatePassword);
@@ -1800,7 +2078,7 @@
             document.getElementById('toggle-password').addEventListener('click', function() {
                 const passwordInput = document.getElementById('password-input');
                 const icon = this.querySelector('i');
-                
+
                 if (passwordInput.type === 'password') {
                     passwordInput.type = 'text';
                     icon.classList.remove('fa-eye');
@@ -1885,6 +2163,10 @@
                     if (session.video) document.getElementById('video-url').value = session.video;
                     if (session.notes) handleNotesAdded(session.notes);
                     if (session.dpp) handleDPPAdded(session.dpp);
+                    if (session.thumbnail) {
+                        document.getElementById('thumbnail-url').value = session.thumbnail;
+                        updateThumbnailPreview(session.thumbnail);
+                    }
                 } catch (e) {
                     console.error("Error loading last session:", e);
                 }
@@ -1910,6 +2192,166 @@
             }
         }
 
+        // THUMBNAIL FUNCTIONS
+        function loadThumbnail() {
+            const thumbnailUrl = localStorage.getItem('thumbnailUrl');
+            if (thumbnailUrl && thumbnailUrl.trim() !== '') {
+                document.getElementById('thumbnail-url').value = thumbnailUrl;
+                updateThumbnailPreview(thumbnailUrl);
+            }
+        }
+
+        function saveThumbnail() {
+            const thumbnailUrl = document.getElementById('thumbnail-settings-url').value.trim();
+            
+            if (!thumbnailUrl) {
+                showToast('Please enter a thumbnail URL', 'error');
+                return;
+            }
+
+            if (!isValidImageUrl(thumbnailUrl)) {
+                showToast('Please enter a valid image URL (jpg, png, gif, webp)', 'error');
+                return;
+            }
+
+            // Save to localStorage
+            localStorage.setItem('thumbnailUrl', thumbnailUrl);
+            
+            // Update the thumbnail input field
+            document.getElementById('thumbnail-url').value = thumbnailUrl;
+            
+            // Update preview
+            updateThumbnailPreview(thumbnailUrl);
+            
+            // Update og:image meta tag
+            updateOpenGraphImage(thumbnailUrl);
+            
+            // Close modal
+            document.getElementById('thumbnail-settings-modal').style.display = 'none';
+            
+            // Clear input
+            document.getElementById('thumbnail-settings-url').value = '';
+            
+            showToast('Thumbnail saved successfully!', 'success');
+            
+            // Update share URL
+            updateShareUrl();
+        }
+
+        function updateThumbnailPreview(url) {
+            const thumbnailPreview = document.getElementById('thumbnail-preview');
+            const thumbnailPreviewImg = document.getElementById('thumbnail-preview-img');
+            const thumbnailPreviewWrapper = document.getElementById('thumbnail-preview-wrapper');
+            
+            if (url && url.trim() !== '') {
+                // Show thumbnail in player placeholder
+                thumbnailPreview.src = url;
+                thumbnailPreview.style.display = 'block';
+                
+                // Show thumbnail preview container
+                thumbnailPreviewImg.src = url;
+                thumbnailPreviewWrapper.classList.add('active');
+                
+                // Update og:image meta tag
+                updateOpenGraphImage(url);
+                
+                // Show thumbnail settings button
+                document.getElementById('thumbnail-settings-btn').style.display = 'inline-flex';
+            } else {
+                // Hide thumbnail
+                thumbnailPreview.style.display = 'none';
+                thumbnailPreviewWrapper.classList.remove('active');
+                document.getElementById('thumbnail-settings-btn').style.display = 'none';
+            }
+            
+            // Update og:image meta tag
+            updateOpenGraphImage(url);
+        }
+
+        function removeThumbnail() {
+            // Clear thumbnail from localStorage
+            localStorage.removeItem('thumbnailUrl');
+            
+            // Clear input field
+            document.getElementById('thumbnail-url').value = '';
+            
+            // Hide preview
+            const thumbnailPreview = document.getElementById('thumbnail-preview');
+            const thumbnailPreviewWrapper = document.getElementById('thumbnail-preview-wrapper');
+            
+            thumbnailPreview.style.display = 'none';
+            thumbnailPreviewWrapper.classList.remove('active');
+            document.getElementById('thumbnail-settings-btn').style.display = 'none';
+            
+            // Clear og:image meta tag
+            updateOpenGraphImage('');
+            
+            showToast('Thumbnail removed', 'success');
+            
+            // Update share URL
+            updateShareUrl();
+        }
+
+        function showThumbnailSettings() {
+            const currentThumbnail = document.getElementById('thumbnail-url').value;
+            document.getElementById('thumbnail-settings-url').value = currentThumbnail;
+            
+            if (currentThumbnail && isValidImageUrl(currentThumbnail)) {
+                document.getElementById('thumbnail-settings-img').src = currentThumbnail;
+                document.getElementById('thumbnail-settings-preview').style.display = 'block';
+            } else {
+                document.getElementById('thumbnail-settings-preview').style.display = 'none';
+            }
+            
+            document.getElementById('thumbnail-settings-modal').style.display = 'flex';
+        }
+
+        function testThumbnailPreview() {
+            const url = document.getElementById('thumbnail-settings-url').value.trim();
+            
+            if (!url) {
+                showToast('Please enter a thumbnail URL first', 'error');
+                return;
+            }
+
+            if (!isValidImageUrl(url)) {
+                showToast('Please enter a valid image URL (jpg, png, gif, webp)', 'error');
+                return;
+            }
+
+            // Update preview
+            document.getElementById('thumbnail-settings-img').src = url;
+            document.getElementById('thumbnail-settings-preview').style.display = 'block';
+            
+            showToast('Thumbnail preview updated', 'success');
+        }
+
+        function updateOpenGraphImage(url) {
+            const ogImageTag = document.getElementById('og-image');
+            if (url && url.trim() !== '') {
+                ogImageTag.content = url;
+            } else {
+                // Default thumbnail or clear
+                ogImageTag.content = 'https://i.supaimg.com/73f6e3b1-211e-4b7e-9eac-9881f90bc471.png';
+            }
+        }
+
+        function isValidImageUrl(url) {
+            if (!url) return false;
+            
+            // Check if it's a valid URL
+            try {
+                new URL(url);
+            } catch (e) {
+                return false;
+            }
+            
+            // Check for image extensions
+            const imageExtensions = ['.jpg', '.jpeg', '.png', '.gif', '.webp', '.svg', '.bmp'];
+            const lowerUrl = url.toLowerCase();
+            return imageExtensions.some(ext => lowerUrl.includes(ext));
+        }
+
         // Password protection functions
         function showPasswordModal() {
             document.getElementById('password-modal').style.display = 'flex';
@@ -1931,7 +2373,7 @@
         function validatePassword() {
             const password = document.getElementById('password-input').value;
             const storedPassword = localStorage.getItem('editPassword');
-            
+
             if (!storedPassword) {
                 showToast('No password set. Please set up a password first.', 'error');
                 return;
@@ -1939,12 +2381,12 @@
 
             if (password === storedPassword) {
                 localStorage.setItem('editModeActive', 'true');
-                
+
                 unlockEditing();
-                
+
                 document.getElementById('password-modal').style.display = 'none';
                 document.getElementById('password-input').value = '';
-                
+
                 showToast('Edit mode unlocked!', 'success');
             } else {
                 showToast('Incorrect password!', 'error');
@@ -1961,22 +2403,31 @@
             document.getElementById('notes-url').readOnly = false;
             document.getElementById('dpp-url').classList.remove('blurred');
             document.getElementById('dpp-url').readOnly = false;
-            
+            document.getElementById('thumbnail-url').classList.remove('blurred');
+            document.getElementById('thumbnail-url').readOnly = false;
+
             // Hide lock overlays
             document.getElementById('video-lock-overlay').style.display = 'none';
             document.getElementById('notes-lock-overlay').style.display = 'none';
             document.getElementById('dpp-lock-overlay').style.display = 'none';
-            
+            document.getElementById('thumbnail-lock-overlay').style.display = 'none';
+
             // Show add buttons
             document.getElementById('add-notes-btn').style.display = 'inline-flex';
             document.getElementById('add-dpp-btn').style.display = 'inline-flex';
-            
+
+            // Show thumbnail settings button
+            const thumbnailUrl = document.getElementById('thumbnail-url').value;
+            if (thumbnailUrl && thumbnailUrl.trim() !== '') {
+                document.getElementById('thumbnail-settings-btn').style.display = 'inline-flex';
+            }
+
             // Update lock button
             const lockBtn = document.getElementById('edit-lock-btn');
             lockBtn.classList.add('unlocked');
             lockBtn.innerHTML = '<i class="fas fa-unlock"></i>';
             lockBtn.title = 'Edit mode active - Click to lock';
-            
+
             // Show indicator
             document.getElementById('secure-mode-indicator').style.display = 'flex';
         }
@@ -1989,25 +2440,31 @@
             document.getElementById('notes-url').readOnly = true;
             document.getElementById('dpp-url').classList.add('blurred');
             document.getElementById('dpp-url').readOnly = true;
-            
+            document.getElementById('thumbnail-url').classList.add('blurred');
+            document.getElementById('thumbnail-url').readOnly = true;
+
             // Show lock overlays
             document.getElementById('video-lock-overlay').style.display = 'flex';
             document.getElementById('notes-lock-overlay').style.display = 'flex';
             document.getElementById('dpp-lock-overlay').style.display = 'flex';
-            
+            document.getElementById('thumbnail-lock-overlay').style.display = 'flex';
+
             // Hide add buttons
             document.getElementById('add-notes-btn').style.display = 'none';
             document.getElementById('add-dpp-btn').style.display = 'none';
-            
+
+            // Hide thumbnail settings button
+            document.getElementById('thumbnail-settings-btn').style.display = 'none';
+
             // Update lock button
             const lockBtn = document.getElementById('edit-lock-btn');
             lockBtn.classList.remove('unlocked');
             lockBtn.innerHTML = '<i class="fas fa-lock"></i>';
             lockBtn.title = 'Unlock Editing';
-            
+
             // Hide indicator
             document.getElementById('secure-mode-indicator').style.display = 'none';
-            
+
             // Clear edit mode from localStorage
             localStorage.removeItem('editModeActive');
         }
@@ -2053,6 +2510,9 @@
             localStorage.setItem('lastVideo', url);
             updateShareUrl();
 
+            // Hide the thumbnail overlay when video starts playing
+            document.getElementById('player-placeholder').style.display = 'none';
+
             const youtubeId = getYouTubeId(url);
 
             if (youtubeId) {
@@ -2075,6 +2535,8 @@
                 player.addEventListener('error', () => {
                     showLoadingSpinner(false);
                     showToast('Error loading video. Please check the URL.', 'error');
+                    // Show placeholder again on error
+                    document.getElementById('player-placeholder').style.display = 'flex';
                 });
             }
         }
@@ -2107,33 +2569,53 @@
             document.getElementById('video-url').value = '';
             document.getElementById('notes-url').value = '';
             document.getElementById('dpp-url').value = '';
-            
+            document.getElementById('thumbnail-url').value = '';
+
             document.getElementById('notes-status').style.display = 'none';
             document.getElementById('view-notes-btn').style.display = 'none';
             document.getElementById('download-notes-pdf-btn').style.display = 'none';
-            
+
             document.getElementById('dpp-status').style.display = 'none';
             document.getElementById('view-dpp-btn').style.display = 'none';
             document.getElementById('download-dpp-pdf-btn').style.display = 'none';
 
+            // Hide thumbnail preview
+            removeThumbnail();
+
+            // Reset player to show placeholder
             const playerContainer = document.getElementById('video-player');
             playerContainer.innerHTML = `
-                <div class="player-placeholder">
-                    <div>
-                        <i class="fas fa-play-circle" style="font-size: 3.5rem; margin-bottom: 20px; color: var(--primary);"></i>
-                        <p>Video will appear here</p>
+                <div class="player-placeholder" id="player-placeholder">
+                    <img src="" alt="Thumbnail Preview" class="thumbnail-preview" id="thumbnail-preview">
+                    <div class="thumbnail-overlay">
+                        <i class="fas fa-play-circle play-button-large"></i>
+                        <div class="play-text">Click to Play Video</div>
                     </div>
                 </div>
             `;
 
+            // Reattach click event to placeholder
+            document.getElementById('player-placeholder').addEventListener('click', () => {
+                const url = document.getElementById('video-url').value;
+                if (isValidUrl(url)) {
+                    playVideo(url);
+                } else if (url.trim()) {
+                    showToast('Please enter a valid URL', 'error');
+                } else {
+                    showToast('Please enter a video URL first', 'error');
+                }
+            });
+
             player = null;
             localStorage.removeItem('lastVideo');
             localStorage.removeItem('lastSession');
+            localStorage.removeItem('thumbnailUrl');
 
             const url = new URL(window.location);
             url.searchParams.delete('play');
             url.searchParams.delete('notes');
             url.searchParams.delete('dpp');
+            url.searchParams.delete('thumb');
             window.history.replaceState({}, '', url);
 
             showToast('All data has been reset', 'success');
@@ -2143,9 +2625,9 @@
             document.getElementById('notes-status').style.display = 'flex';
             document.getElementById('view-notes-btn').style.display = 'inline-flex';
             document.getElementById('download-notes-pdf-btn').style.display = 'inline-flex';
-            
+
             setupNotesViewButton(notesUrl);
-            
+
             updateShareUrl();
         }
 
@@ -2174,11 +2656,11 @@
             document.getElementById('dpp-status').style.display = 'flex';
             document.getElementById('view-dpp-btn').style.display = 'inline-flex';
             document.getElementById('download-dpp-pdf-btn').style.display = 'inline-flex';
-            
+
             document.getElementById('view-dpp-btn').disabled = false;
             document.getElementById('view-dpp-btn').innerHTML = '<i class="fas fa-external-link-alt"></i> View DPP';
             document.getElementById('view-dpp-btn').onclick = () => window.open(dppUrl, '_blank');
-            
+
             updateShareUrl();
         }
 
@@ -2204,7 +2686,7 @@
                 showToast('No notes to download', 'error');
                 return;
             }
-            
+
             downloadPDF(notesUrl, 'notes');
         }
 
@@ -2214,15 +2696,15 @@
                 showToast('No DPP to download', 'error');
                 return;
             }
-            
+
             downloadPDF(dppUrl, 'dpp');
         }
 
         function downloadPDF(url, type) {
             showLoadingSpinner(true);
-            
+
             let filename = `${type}_${new Date().getTime()}.pdf`;
-            
+
             try {
                 const urlObj = new URL(url);
                 const pathParts = urlObj.pathname.split('/');
@@ -2231,20 +2713,20 @@
                     filename = lastPart;
                 }
             } catch (e) {}
-            
+
             const link = document.createElement('a');
             link.href = url;
             link.download = filename;
             link.target = '_blank';
             link.style.display = 'none';
-            
+
             document.body.appendChild(link);
             link.click();
             document.body.removeChild(link);
-            
+
             showLoadingSpinner(false);
             showToast(`Downloading ${type} PDF...`, 'success');
-            
+
             setTimeout(() => {
                 showToast(`${type} PDF download started!`, 'success');
             }, 1000);
@@ -2253,21 +2735,21 @@
         function downloadAllPDFs() {
             const notesUrl = document.getElementById('notes-url').value;
             const dppUrl = document.getElementById('dpp-url').value;
-            
+
             let downloadsStarted = 0;
-            
+
             if (notesUrl) {
                 downloadPDF(notesUrl, 'notes');
                 downloadsStarted++;
             }
-            
+
             if (dppUrl) {
                 setTimeout(() => {
                     downloadPDF(dppUrl, 'dpp');
                 }, 1000);
                 downloadsStarted++;
             }
-            
+
             if (downloadsStarted === 0) {
                 showToast('No resources to download', 'error');
             } else if (downloadsStarted === 2) {
@@ -2280,6 +2762,7 @@
                 video: document.getElementById('video-url').value,
                 notes: document.getElementById('notes-url').value,
                 dpp: document.getElementById('dpp-url').value,
+                thumbnail: document.getElementById('thumbnail-url').value,
                 timestamp: new Date().toISOString()
             };
 
@@ -2298,9 +2781,6 @@
                 const data = JSON.parse(session);
                 if (data.video) {
                     document.getElementById('video-url').value = data.video;
-                    if (isValidUrl(data.video)) {
-                        playVideo(data.video);
-                    }
                 }
                 if (data.notes) {
                     document.getElementById('notes-url').value = data.notes;
@@ -2309,6 +2789,10 @@
                 if (data.dpp) {
                     document.getElementById('dpp-url').value = data.dpp;
                     handleDPPAdded(data.dpp);
+                }
+                if (data.thumbnail) {
+                    document.getElementById('thumbnail-url').value = data.thumbnail;
+                    updateThumbnailPreview(data.thumbnail);
                 }
                 showToast('Session loaded successfully!', 'success');
             } catch (e) {
@@ -2320,18 +2804,21 @@
             const videoUrl = document.getElementById('video-url').value;
             const notesUrl = document.getElementById('notes-url').value;
             const dppUrl = document.getElementById('dpp-url').value;
+            const thumbnailUrl = document.getElementById('thumbnail-url').value;
 
             const exportData = {
                 video: videoUrl || 'Not set',
                 notes: notesUrl || 'Not set',
-                dpp: dppUrl || 'Not set'
+                dpp: dppUrl || 'Not set',
+                thumbnail: thumbnailUrl || 'Not set'
             };
 
-            const exportText = `LEARNIX PLAYER Session Export:\n\nVideo: ${exportData.video}\nNotes: ${exportData.notes}\nDPP: ${exportData.dpp}\n\nShared via LEARNIX PLAYER`;
+            const exportText = `LEARNIX PLAYER Session Export:\n\nVideo: ${exportData.video}\nNotes: ${exportData.notes}\nDPP: ${exportData.dpp}\nThumbnail: ${exportData.thumbnail}\n\nShared via LEARNIX PLAYER`;
 
             document.getElementById('export-video-url').textContent = exportData.video;
             document.getElementById('export-notes-url').textContent = exportData.notes;
             document.getElementById('export-dpp-url').textContent = exportData.dpp;
+            document.getElementById('export-thumbnail-url').textContent = exportData.thumbnail;
             document.getElementById('export-url').value = exportText;
 
             document.getElementById('export-modal').style.display = 'flex';
@@ -2346,6 +2833,7 @@
                 video: document.getElementById('video-url').value,
                 notes: document.getElementById('notes-url').value,
                 dpp: document.getElementById('dpp-url').value,
+                thumbnail: document.getElementById('thumbnail-url').value,
                 title: `Session ${new Date().toLocaleDateString()}`,
                 timestamp: new Date().toISOString()
             };
@@ -2387,6 +2875,7 @@
             const videoUrl = document.getElementById('video-url').value;
             const notesUrl = document.getElementById('notes-url').value;
             const dppUrl = document.getElementById('dpp-url').value;
+            const thumbnailUrl = document.getElementById('thumbnail-url').value;
 
             const currentUrl = window.location.origin + window.location.pathname;
             const params = new URLSearchParams();
@@ -2400,9 +2889,12 @@
             if (dppUrl) {
                 params.append('dpp', btoa(dppUrl));
             }
+            if (thumbnailUrl) {
+                params.append('thumb', btoa(thumbnailUrl));
+            }
 
             const shareUrl = params.toString() ? `${currentUrl}?${params.toString()}` : currentUrl;
-            
+
             if (document.getElementById('share-url')) {
                 document.getElementById('share-url').value = shareUrl;
             }
