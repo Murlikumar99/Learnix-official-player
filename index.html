@@ -5,6 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>LEARNIX PLAYER - Secure Video Platform</title>
     <meta property="og:image" content="" id="og-image">
+    
+    <!-- AdSense Code -->
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4386953840556147"
+     crossorigin="anonymous"></script>
+    
     <link rel="icon" href="https://i.supaimg.com/5aa6f3e6-1291-4b63-879e-7870fcdac1d6.png" type="image/png">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -1942,10 +1947,10 @@
                 try {
                     const videoId = atob(playParam);
                     document.getElementById('video-url').value = videoId;
-                    
+
                     // Update share URL
                     updateShareUrl();
-                    
+
                     // Show toast message
                     showToast('Video URL loaded. Click Play to start watching.', 'info');
                 } catch (e) {
@@ -2203,7 +2208,7 @@
 
         function saveThumbnail() {
             const thumbnailUrl = document.getElementById('thumbnail-settings-url').value.trim();
-            
+
             if (!thumbnailUrl) {
                 showToast('Please enter a thumbnail URL', 'error');
                 return;
@@ -2216,24 +2221,24 @@
 
             // Save to localStorage
             localStorage.setItem('thumbnailUrl', thumbnailUrl);
-            
+
             // Update the thumbnail input field
             document.getElementById('thumbnail-url').value = thumbnailUrl;
-            
+
             // Update preview
             updateThumbnailPreview(thumbnailUrl);
-            
+
             // Update og:image meta tag
             updateOpenGraphImage(thumbnailUrl);
-            
+
             // Close modal
             document.getElementById('thumbnail-settings-modal').style.display = 'none';
-            
+
             // Clear input
             document.getElementById('thumbnail-settings-url').value = '';
-            
+
             showToast('Thumbnail saved successfully!', 'success');
-            
+
             // Update share URL
             updateShareUrl();
         }
@@ -2242,19 +2247,19 @@
             const thumbnailPreview = document.getElementById('thumbnail-preview');
             const thumbnailPreviewImg = document.getElementById('thumbnail-preview-img');
             const thumbnailPreviewWrapper = document.getElementById('thumbnail-preview-wrapper');
-            
+
             if (url && url.trim() !== '') {
                 // Show thumbnail in player placeholder
                 thumbnailPreview.src = url;
                 thumbnailPreview.style.display = 'block';
-                
+
                 // Show thumbnail preview container
                 thumbnailPreviewImg.src = url;
                 thumbnailPreviewWrapper.classList.add('active');
-                
+
                 // Update og:image meta tag
                 updateOpenGraphImage(url);
-                
+
                 // Show thumbnail settings button
                 document.getElementById('thumbnail-settings-btn').style.display = 'inline-flex';
             } else {
@@ -2263,7 +2268,7 @@
                 thumbnailPreviewWrapper.classList.remove('active');
                 document.getElementById('thumbnail-settings-btn').style.display = 'none';
             }
-            
+
             // Update og:image meta tag
             updateOpenGraphImage(url);
         }
@@ -2271,23 +2276,23 @@
         function removeThumbnail() {
             // Clear thumbnail from localStorage
             localStorage.removeItem('thumbnailUrl');
-            
+
             // Clear input field
             document.getElementById('thumbnail-url').value = '';
-            
+
             // Hide preview
             const thumbnailPreview = document.getElementById('thumbnail-preview');
             const thumbnailPreviewWrapper = document.getElementById('thumbnail-preview-wrapper');
-            
+
             thumbnailPreview.style.display = 'none';
             thumbnailPreviewWrapper.classList.remove('active');
             document.getElementById('thumbnail-settings-btn').style.display = 'none';
-            
+
             // Clear og:image meta tag
             updateOpenGraphImage('');
-            
+
             showToast('Thumbnail removed', 'success');
-            
+
             // Update share URL
             updateShareUrl();
         }
@@ -2295,20 +2300,20 @@
         function showThumbnailSettings() {
             const currentThumbnail = document.getElementById('thumbnail-url').value;
             document.getElementById('thumbnail-settings-url').value = currentThumbnail;
-            
+
             if (currentThumbnail && isValidImageUrl(currentThumbnail)) {
                 document.getElementById('thumbnail-settings-img').src = currentThumbnail;
                 document.getElementById('thumbnail-settings-preview').style.display = 'block';
             } else {
                 document.getElementById('thumbnail-settings-preview').style.display = 'none';
             }
-            
+
             document.getElementById('thumbnail-settings-modal').style.display = 'flex';
         }
 
         function testThumbnailPreview() {
             const url = document.getElementById('thumbnail-settings-url').value.trim();
-            
+
             if (!url) {
                 showToast('Please enter a thumbnail URL first', 'error');
                 return;
@@ -2322,7 +2327,7 @@
             // Update preview
             document.getElementById('thumbnail-settings-img').src = url;
             document.getElementById('thumbnail-settings-preview').style.display = 'block';
-            
+
             showToast('Thumbnail preview updated', 'success');
         }
 
@@ -2338,14 +2343,14 @@
 
         function isValidImageUrl(url) {
             if (!url) return false;
-            
+
             // Check if it's a valid URL
             try {
                 new URL(url);
             } catch (e) {
                 return false;
             }
-            
+
             // Check for image extensions
             const imageExtensions = ['.jpg', '.jpeg', '.png', '.gif', '.webp', '.svg', '.bmp'];
             const lowerUrl = url.toLowerCase();
